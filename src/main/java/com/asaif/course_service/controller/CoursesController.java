@@ -1,5 +1,7 @@
-package com.asaif.course_service;
+package com.asaif.course_service.controller;
 
+import com.asaif.course_service.service.CourseService;
+import com.asaif.course_service.model.Course;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

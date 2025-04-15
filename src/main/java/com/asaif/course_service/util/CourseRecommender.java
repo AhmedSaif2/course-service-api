@@ -1,4 +1,6 @@
-package com.asaif.course_service;
+package com.asaif.course_service.util;
+
+import com.asaif.course_service.model.Course;
 
 import java.util.List;
 

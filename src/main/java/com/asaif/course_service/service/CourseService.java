@@ -1,6 +1,8 @@
-package com.asaif.course_service;
+package com.asaif.course_service.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.asaif.course_service.util.CourseRecommender;
+import com.asaif.course_service.model.Course;
+import com.asaif.course_service.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
