@@ -1,9 +1,8 @@
 package com.asaif.course_service.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Course {
@@ -12,6 +11,19 @@ public class Course {
     private String id;
     private String name;
     private String description;
+
+    @OneToMany
+    @JoinColumn(name = "rating_id", referencedColumnName = "id")
+    private List<Rating> ratings;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "assesment_id")
+    private Assesment assesment;
+    @ManyToMany
+    @JoinTable(
+            name = "course_author",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    private List<Author> authors;
 
     public Course() {
 
