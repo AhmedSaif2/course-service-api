@@ -20,6 +20,10 @@ public class CoursesController {
     public Course getById(@PathVariable String id){
         return courseService.getCourseById(id);
     }
+    @GetMapping("/recommend")
+    public List<Course> getRecommendedCourses(){
+        return courseService.getRecommendedCourses();
+    }
     @PostMapping
     public void createCourse(@RequestBody Course course){
         courseService.createCourse(course);

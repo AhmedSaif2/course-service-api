@@ -1,12 +1,19 @@
 package com.asaif.course_service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
-    public CourseService(CourseRepository courseRepository) {
+    private final CourseRecommender courseRecommender;
+    public CourseService(CourseRepository courseRepository,
+                         @Qualifier("recommendJavaCourses") CourseRecommender courseRecommender) {
         this.courseRepository = courseRepository;
+        this.courseRecommender = courseRecommender;
     }
     public Iterable<Course> getAllCourses() {
         return courseRepository.findAll();
@@ -28,6 +35,9 @@ public class CourseService {
         if (courseRepository.existsById(id)) {
             courseRepository.deleteById(id);
         }
+    }
+    public List<Course> getRecommendedCourses(){
+        return courseRecommender.recommendCourses();
     }
 
 }
