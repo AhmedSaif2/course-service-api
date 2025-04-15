@@ -3,13 +3,14 @@ package com.asaif.course_service.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Assesment {
+public class Assessment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     private String content;
-    @OneToOne(mappedBy = "assesment")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
     private Course course;
 
     public String getId() {

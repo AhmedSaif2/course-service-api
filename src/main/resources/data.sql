@@ -1,6 +1,6 @@
 -- Insert authors
-INSERT INTO author (name) VALUES ('Alice Johnson');
-INSERT INTO author (name) VALUES ('Bob Smith');
+INSERT INTO author (name, mail) VALUES ('Alice Johnson','Alice@gmail.com');
+INSERT INTO author (name, mail) VALUES ('Bob Smith','Bob@gmail.com');
 
 -- Insert courses
 INSERT INTO course (name, description) VALUES ('Java Basics', 'Introduction to Java programming');
@@ -17,5 +17,5 @@ INSERT INTO rating (number, course_id) VALUES (4, 0);
 INSERT INTO rating (number, course_id) VALUES (3, 1);
 
 -- Insert assessments
-INSERT INTO assessment (title, course_id) VALUES ('Java Quiz 1', 0);
-INSERT INTO assessment (title, course_id) VALUES ('Spring Boot Assignment', 1);
+INSERT INTO assessment (content, course_id) VALUES ('Java Quiz 1', 0);
+INSERT INTO assessment (content, course_id) VALUES ('Spring Boot Assignment', 1);

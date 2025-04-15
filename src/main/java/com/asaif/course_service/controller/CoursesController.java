@@ -1,7 +1,10 @@
 package com.asaif.course_service.controller;
 
+import com.asaif.course_service.Dto.CourseDto;
+import com.asaif.course_service.mapper.CourseMapper;
 import com.asaif.course_service.service.CourseService;
 import com.asaif.course_service.model.Course;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,13 +13,16 @@ import java.util.List;
 @RequestMapping("/courses")
 public class CoursesController {
 
-    CourseService courseService;
-    public CoursesController(CourseService courseService) {
+    private CourseService courseService;
+    private CourseMapper courseMapper;
+    public CoursesController(CourseService courseService,
+                             CourseMapper courseMapper) {
         this.courseService = courseService;
+        this.courseMapper = courseMapper;
     }
     @GetMapping
-    public Iterable<Course> getAll(){
-        return courseService.getAllCourses();
+    public List<CourseDto> getAll(@RequestParam int page, @RequestParam int size){
+        return courseMapper.coursesToDtos(courseService.getPagedCourses(page, size).getContent());
     }
     @GetMapping("{id}")
     public Course getById(@PathVariable String id){
@@ -27,8 +33,9 @@ public class CoursesController {
         return courseService.getRecommendedCourses();
     }
     @PostMapping
-    public void createCourse(@RequestBody Course course){
-        courseService.createCourse(course);
+    public void createCourse(@RequestBody CourseDto course){
+        Course newCourse = courseMapper.dtoToCourse(course);
+        courseService.createCourse(newCourse);
     }
     @PutMapping("{id}")
     public void updateCourse(@PathVariable String id,@RequestBody Course course){

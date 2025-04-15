@@ -15,9 +15,8 @@ public class Course {
     @OneToMany
     @JoinColumn(name = "rating_id", referencedColumnName = "id")
     private List<Rating> ratings;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "assesment_id")
-    private Assesment assesment;
+    @OneToOne(mappedBy = "course")
+    private Assessment assessment;
     @ManyToMany
     @JoinTable(
             name = "course_author",
