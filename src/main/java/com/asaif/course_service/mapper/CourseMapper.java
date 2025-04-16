@@ -6,10 +6,9 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {RatingMapper.class, AuthorMapper.class, AssessmentMapper.class})
 public interface CourseMapper {
     CourseDto courseToDto(Course course);
     Course dtoToCourse(CourseDto courseDto);
     List<CourseDto> coursesToDtos(List<Course> courses);
-    List<Course> dtosToCourses(List<CourseDto> courseDtos);
 }

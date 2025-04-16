@@ -25,22 +25,20 @@ public class CoursesController {
         return courseMapper.coursesToDtos(courseService.getPagedCourses(page, size).getContent());
     }
     @GetMapping("{id}")
-    public ResponseEntity<Course> getById(@PathVariable String id){
+    public ResponseEntity<CourseDto> getById(@PathVariable String id){
         Course course = courseService.getCourseById(id);
         if (course == null){
             return ResponseEntity.notFound().build();
         }
-        else {
-            return ResponseEntity.ok(course);
-        }
+        return ResponseEntity.ok(courseMapper.courseToDto(course));
     }
     @GetMapping("/recommend")
-    public List<Course> getRecommendedCourses(){
-        return courseService.getRecommendedCourses();
+    public List<CourseDto> getRecommendedCourses(){
+        return courseMapper.coursesToDtos(courseService.getRecommendedCourses());
     }
     @PostMapping
-    public void createCourse(@RequestBody CourseDto course){
-        Course newCourse = courseMapper.dtoToCourse(course);
+    public void createCourse(@RequestBody CourseDto courseDto){
+        Course newCourse = courseMapper.dtoToCourse(courseDto);
         courseService.createCourse(newCourse);
     }
     @PutMapping("{id}")

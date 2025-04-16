@@ -22,6 +22,5 @@ public class Author {
     private String mail;
 
     @ManyToMany(mappedBy = "authors")
-    @JsonIgnore
     private List<Course> courses;
 }

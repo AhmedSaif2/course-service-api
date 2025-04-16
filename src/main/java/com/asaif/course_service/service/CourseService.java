@@ -32,7 +32,6 @@ public class CourseService {
         return courseRepository.save(course);
     }
     public Course updateCourse(Course course){
-        System.out.println(course.getId()+" "+course.getName()+" "+course.getDescription());
         return courseRepository.save(course);
     }
     public void deleteCourse(String id){

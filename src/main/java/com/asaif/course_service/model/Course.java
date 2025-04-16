@@ -18,11 +18,11 @@ public class Course {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Rating> ratings;
-    @OneToOne(mappedBy = "course")
+    @OneToOne(mappedBy = "course", cascade = CascadeType.ALL)
     private Assessment assessment;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "course_author",
             joinColumns = @JoinColumn(name = "course_id"),

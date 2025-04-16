@@ -1,22 +1,18 @@
 package com.asaif.course_service.dto;
 
+import com.asaif.course_service.model.Rating;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.SecondaryRow;
+
+import java.util.List;
+
+@Getter
+@Setter
 public class CourseDto {
     private String name;
     private String description;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    List<RatingDto> ratings;
+    List<AuthorDto> authors;
+    AssessmentDto assessment;
 }

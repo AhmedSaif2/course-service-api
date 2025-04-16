@@ -18,6 +18,5 @@ public class Rating {
 
     @ManyToOne
     @JoinColumn(name = "course_id")
-    @JsonIgnore
     private Course course;
 }
