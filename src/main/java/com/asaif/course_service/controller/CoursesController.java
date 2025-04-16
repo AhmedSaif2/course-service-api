@@ -32,7 +32,7 @@ public class CoursesController {
         }
         return ResponseEntity.ok(courseMapper.courseToDto(course));
     }
-    @GetMapping("/recommend")
+    @GetMapping("/recommended")
     public List<CourseDto> getRecommendedCourses(){
         return courseMapper.coursesToDtos(courseService.getRecommendedCourses());
     }
