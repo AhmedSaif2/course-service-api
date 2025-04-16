@@ -17,7 +17,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseRecommender courseRecommender;
     public CourseService(CourseRepository courseRepository,
-                         @Qualifier("recommendJavaCourses") CourseRecommender courseRecommender,
+                         CourseRecommender courseRecommender,
                          CourseMapper courseMapper) {
         this.courseRepository = courseRepository;
         this.courseRecommender = courseRecommender;
@@ -32,11 +32,8 @@ public class CourseService {
         return courseRepository.save(course);
     }
     public Course updateCourse(Course course){
-        if (courseRepository.existsById(course.getId())) {
-            return courseRepository.save(course);
-        } else {
-            return null;
-        }
+        System.out.println(course.getId()+" "+course.getName()+" "+course.getDescription());
+        return courseRepository.save(course);
     }
     public void deleteCourse(String id){
         if (courseRepository.existsById(id)) {

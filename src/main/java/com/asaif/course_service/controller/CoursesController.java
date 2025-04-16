@@ -1,10 +1,10 @@
 package com.asaif.course_service.controller;
 
-import com.asaif.course_service.Dto.CourseDto;
+import com.asaif.course_service.dto.CourseDto;
 import com.asaif.course_service.mapper.CourseMapper;
 import com.asaif.course_service.service.CourseService;
 import com.asaif.course_service.model.Course;
-import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +25,14 @@ public class CoursesController {
         return courseMapper.coursesToDtos(courseService.getPagedCourses(page, size).getContent());
     }
     @GetMapping("{id}")
-    public Course getById(@PathVariable String id){
-        return courseService.getCourseById(id);
+    public ResponseEntity<Course> getById(@PathVariable String id){
+        Course course = courseService.getCourseById(id);
+        if (course == null){
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            return ResponseEntity.ok(course);
+        }
     }
     @GetMapping("/recommend")
     public List<Course> getRecommendedCourses(){
@@ -38,11 +44,22 @@ public class CoursesController {
         courseService.createCourse(newCourse);
     }
     @PutMapping("{id}")
-    public void updateCourse(@PathVariable String id,@RequestBody Course course){
+    public ResponseEntity<Void> updateCourse(@PathVariable String id,@RequestBody CourseDto courseDto){
+        if (courseService.getCourseById(id) == null){
+            return ResponseEntity.notFound().build();
+        }
+        Course course = courseMapper.dtoToCourse(courseDto);
+        course.setId(id);
         courseService.updateCourse(course);
+        return ResponseEntity.ok().build();
     }
     @DeleteMapping("{id}")
-    public void deleteById(@PathVariable String id){
+    public ResponseEntity<Void> deleteById(@PathVariable String id){
+        Course course = courseService.getCourseById(id);
+        if (course == null){
+            return ResponseEntity.notFound().build();
+        }
         courseService.deleteCourse(id);
+        return ResponseEntity.ok().build();
     }
 }
