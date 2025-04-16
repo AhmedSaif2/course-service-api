@@ -1,4 +1,4 @@
-package com.asaif.course_service.Dto;
+package com.asaif.course_service.dto;
 
 public class CourseDto {
     private String name;

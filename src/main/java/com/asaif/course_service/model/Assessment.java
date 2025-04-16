@@ -1,5 +1,6 @@
 package com.asaif.course_service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,8 +10,18 @@ public class Assessment {
     private String id;
 
     private String content;
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 
     public String getId() {

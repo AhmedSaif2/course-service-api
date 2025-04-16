@@ -1,5 +1,6 @@
 package com.asaif.course_service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class Author {
     private String name;
     private String mail;
     @ManyToMany(mappedBy = "authors")
+    @JsonIgnore
     private List<Course> courses;
 
     public Author() {
