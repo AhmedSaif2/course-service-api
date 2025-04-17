@@ -12,7 +12,7 @@ import java.util.List;
 public class CourseDto {
     private String name;
     private String description;
-    List<RatingDto> ratings;
-    List<AuthorDto> authors;
-    AssessmentDto assessment;
+    private List<RatingDto> ratings;
+    private List<AuthorDto> authors;
+    private AssessmentDto assessment;
 }
