@@ -1,5 +1,6 @@
 package com.asaif.course_service.service;
 
+import com.asaif.course_service.dto.CourseDto;
 import com.asaif.course_service.mapper.CourseMapper;
 import com.asaif.course_service.util.CourseRecommender;
 import com.asaif.course_service.model.Course;
@@ -16,35 +17,51 @@ import java.util.List;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseRecommender courseRecommender;
+    private final CourseMapper courseMapper;
     public CourseService(CourseRepository courseRepository,
                          CourseRecommender courseRecommender,
                          CourseMapper courseMapper) {
         this.courseRepository = courseRepository;
         this.courseRecommender = courseRecommender;
+        this.courseMapper = courseMapper;
     }
-    public Iterable<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public List<CourseDto> getAllCourses() {
+        List<Course> courses = courseRepository.findAll();
+        return courseMapper.coursesToDtos(courses);
     }
-    public Course getCourseById(String id) {
-        return courseRepository.findById(id).orElse(null);
+    public CourseDto getCourseById(String id) {
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) {
+            return null;
+        }
+        return courseMapper.courseToDto(course);
     }
-    public Course createCourse(Course course) {
-        return courseRepository.save(course);
+    public Course createCourse(CourseDto courseDto) {
+        return courseRepository.save(courseMapper.dtoToCourse(courseDto));
     }
-    public Course updateCourse(Course course){
-        return courseRepository.save(course);
+    public boolean updateCourse(String id,CourseDto courseDto){
+        if (courseRepository.existsById(id)) {
+            Course course = courseMapper.dtoToCourse(courseDto);
+            course.setId(id);
+            courseRepository.save(course);
+            return true;
+        }
+        return false;
     }
-    public void deleteCourse(String id){
+    public boolean deleteCourse(String id){
         if (courseRepository.existsById(id)) {
             courseRepository.deleteById(id);
+            return true;
         }
+        return false;
     }
-    public List<Course> getRecommendedCourses(){
-        return courseRecommender.recommendCourses();
+    public List<CourseDto> getRecommendedCourses(){
+        List<Course> courses = courseRecommender.recommendCourses();
+        return courseMapper.coursesToDtos(courses);
     }
 
-    public Page<Course> getPagedCourses(int page, int size) {
+    public List<CourseDto> getPagedCourses(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return courseRepository.findAll(pageable);
+        return courseMapper.coursesToDtos(courseRepository.findAll(pageable).getContent());
     }
 }
