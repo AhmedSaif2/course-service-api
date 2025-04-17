@@ -5,8 +5,6 @@ import com.asaif.course_service.mapper.CourseMapper;
 import com.asaif.course_service.util.CourseRecommender;
 import com.asaif.course_service.model.Course;
 import com.asaif.course_service.repository.CourseRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

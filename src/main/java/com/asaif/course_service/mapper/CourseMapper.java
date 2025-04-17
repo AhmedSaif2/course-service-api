@@ -3,7 +3,6 @@ package com.asaif.course_service.mapper;
 import com.asaif.course_service.dto.CourseDto;
 import com.asaif.course_service.model.Course;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 
