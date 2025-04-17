@@ -23,10 +23,6 @@ public class CourseService {
         this.courseRecommender = courseRecommender;
         this.courseMapper = courseMapper;
     }
-    public List<CourseDto> getAllCourses() {
-        List<Course> courses = courseRepository.findAll();
-        return courseMapper.coursesToDtos(courses);
-    }
     public CourseDto getCourseById(String id) {
         Course course = courseRepository.findById(id).orElse(null);
         if (course == null) {
