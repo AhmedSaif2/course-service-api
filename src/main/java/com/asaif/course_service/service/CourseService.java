@@ -1,10 +1,8 @@
 package com.asaif.course_service.service;
 
-import com.asaif.course_service.mapper.CourseMapper;
 import com.asaif.course_service.util.CourseRecommender;
 import com.asaif.course_service.model.Course;
 import com.asaif.course_service.repository.CourseRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +15,11 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseRecommender courseRecommender;
     public CourseService(CourseRepository courseRepository,
-                         CourseRecommender courseRecommender,
-                         CourseMapper courseMapper) {
+                         CourseRecommender courseRecommender) {
         this.courseRepository = courseRepository;
         this.courseRecommender = courseRecommender;
     }
-    public Iterable<Course> getAllCourses() {
+    public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
     public Course getCourseById(String id) {
