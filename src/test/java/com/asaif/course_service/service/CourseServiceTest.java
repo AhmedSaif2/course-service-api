@@ -1,8 +1,14 @@
 package com.asaif.course_service.service;
 
+import com.asaif.course_service.dto.AssessmentDto;
+import com.asaif.course_service.dto.AuthorDto;
 import com.asaif.course_service.dto.CourseDto;
+import com.asaif.course_service.dto.RatingDto;
 import com.asaif.course_service.mapper.CourseMapper;
+import com.asaif.course_service.model.Assessment;
+import com.asaif.course_service.model.Author;
 import com.asaif.course_service.model.Course;
+import com.asaif.course_service.model.Rating;
 import com.asaif.course_service.repository.CourseRepository;
 import com.asaif.course_service.util.CourseRecommender;
 import org.junit.jupiter.api.BeforeEach;
