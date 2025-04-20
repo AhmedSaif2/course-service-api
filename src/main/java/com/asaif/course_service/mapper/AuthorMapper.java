@@ -8,6 +8,5 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
      AuthorDto authorToDto(Author author);
-     Author dtoToAuthor(AuthorDto authorDto);
      List<AuthorDto> authorsToDtos(List<Author> authors);
 }

@@ -7,8 +7,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RatingMapper {
-     Rating dtoToRating(RatingDto ratingDto);
      RatingDto ratingToDto(Rating rating);
      List<RatingDto> ratingsToDtos(List<Rating> ratings);
-        List<Rating> dtosToRatings(List<RatingDto> ratingDtos);
 }
