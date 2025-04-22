@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class CourseMapperTest {
+class CourseMapperTest {
 
     @Autowired
     private CourseMapper courseMapper;
@@ -48,7 +48,7 @@ public class CourseMapperTest {
         assertEquals("test assessment", result.getAssessment().getContent());
     }
     @Test
-    public void dtoToCourse_withNestedFields_returnsCourse(){
+    void dtoToCourse_withNestedFields_returnsCourse(){
         AssessmentDto assessmentDto = new AssessmentDto("test assessment");
         RatingDto ratingDto = new RatingDto( 5);
         AuthorDto authorDto = new AuthorDto("Jhon Doe","test@mail.com");

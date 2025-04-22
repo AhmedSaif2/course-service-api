@@ -17,13 +17,12 @@ import org.springframework.test.context.DynamicPropertySource;
 
 import java.util.List;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(WireMockExtension.class)
 @AutoConfigureMockMvc
-public class QuoteServiceTest {
+class QuoteServiceTest {
     @Autowired
     private QuoteService quoteService;
     @Autowired

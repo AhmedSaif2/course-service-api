@@ -16,20 +16,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RecommendAllTest {
+class RecommendAllTest {
     @Mock
     private CourseRepository courseRepository;
     @InjectMocks
     private RecommendAll recommendAll;
     private Course testCourse = new Course();
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         testCourse.setId("1");
         testCourse.setName("test Course");
         testCourse.setDescription("test Description");
     }
     @Test
-    public void recommendCourse_coursesExist_returnsCourses() {
+    void recommendCourse_coursesExist_returnsCourses() {
         when(courseRepository.findAll()).thenReturn(List.of(testCourse));
 
         List<Course> result = recommendAll.recommendCourses();
@@ -39,7 +39,7 @@ public class RecommendAllTest {
         assertEquals(testCourse, result.get(0));
     }
     @Test
-    public void recommendCourse_noCoursesExist_returnsEmptyList() {
+    void recommendCourse_noCoursesExist_returnsEmptyList() {
         when(courseRepository.findAll()).thenReturn(List.of());
 
         List<Course> result = recommendAll.recommendCourses();
