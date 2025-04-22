@@ -2,6 +2,12 @@
 INSERT INTO author (name, mail) VALUES ('Alice Johnson','Alice@gmail.com');
 INSERT INTO author (name, mail) VALUES ('Bob Smith','Bob@gmail.com');
 
+-- Insert users
+INSERT INTO app_user (username, password, role, mail) VALUES
+('alice', '{noop}password123', 'USER', 'alice@example.com'),
+('bob', '{noop}adminpass', 'ADMIN', 'bob@example.com'),
+('carol', '{noop}secret', 'MODERATOR', 'carol@example.com');
+
 -- Insert courses
 INSERT INTO course (name, description) VALUES ('Java Basics', 'Introduction to Java programming');
 INSERT INTO course (name, description) VALUES ('Spring Boot', 'Building APIs with Spring Boot');
