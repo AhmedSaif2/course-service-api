@@ -19,6 +19,5 @@ public class ValidationReportFilter implements Filter {
             return;
         }
         throw new AccessDeniedException("Access Denied");
-
     }
 }

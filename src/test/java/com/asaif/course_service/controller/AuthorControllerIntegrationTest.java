@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -24,36 +25,49 @@ class AuthorControllerIntegrationTest {
     private AuthorRepository authorRepository;
 
     private int initialAuthorsCount;
+
     @BeforeEach
     void setUp() {
         initialAuthorsCount = authorRepository.findAll().size();
     }
+
     @Test
     void getAllAuthors_authorsExist_returnsAuthors() throws Exception {
-        mockMvc.perform(get("/authors"))
+        mockMvc.perform(get("/authors").headers(new HttpHeaders() {{
+                    set("X-Validation-Report", "true");
+                }}))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(initialAuthorsCount)));
     }
+
     @Test
     void getAllAuthors_noAuthors_returnsEmptyList() throws Exception {
         authorRepository.deleteAll();
-        mockMvc.perform(get("/authors"))
+        mockMvc.perform(get("/authors").headers(new HttpHeaders() {{
+                    set("X-Validation-Report", "true");
+                }}))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(0)));
     }
+
     @Test
     void getAuthorByMail_authorExists_returnsAuthor() throws Exception {
         String authorMail = authorRepository.findAll().get(0).getMail();
-        mockMvc.perform(get("/authors/" + authorMail))
+        mockMvc.perform(get("/authors/" + authorMail).headers(new HttpHeaders() {{
+                    set("X-Validation-Report", "true");
+                }}))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.mail").value(authorMail));
     }
+
     @Test
     void getAuthorByMail_invalidMail_returnsNotFound() throws Exception {
-        mockMvc.perform(get("/authors/" + "not-found@mail.com"))
+        mockMvc.perform(get("/authors/" + "not-found@mail.com").headers(new HttpHeaders() {{
+                    set("X-Validation-Report", "true");
+                }}))
                 .andExpect(status().isNotFound());
     }
 
