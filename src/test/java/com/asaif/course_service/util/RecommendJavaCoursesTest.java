@@ -25,11 +25,11 @@ class RecommendJavaCoursesTest {
     private Course javaCourse = new Course();
     @BeforeEach
     void setUp() {
-        testCourse.setId("1");
+        testCourse.setId(1L);
         testCourse.setName("test Course");
         testCourse.setDescription("test Description");
 
-        javaCourse.setId("2");
+        javaCourse.setId(2L);
         javaCourse.setName("Java Course");
         javaCourse.setDescription("Java Description");
     }

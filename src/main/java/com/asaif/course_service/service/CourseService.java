@@ -23,7 +23,7 @@ public class CourseService {
         this.courseRecommender = courseRecommender;
         this.courseMapper = courseMapper;
     }
-    public CourseDto getCourseById(String id) {
+    public CourseDto getCourseById(Long id) {
         Course course = courseRepository.findById(id).orElse(null);
         if (course == null) {
             return null;
@@ -33,7 +33,7 @@ public class CourseService {
     public Course createCourse(CourseDto courseDto) {
         return courseRepository.save(courseMapper.dtoToCourse(courseDto));
     }
-    public boolean updateCourse(String id,CourseDto courseDto){
+    public boolean updateCourse(Long id,CourseDto courseDto){
         if (courseRepository.existsById(id)) {
             Course course = courseMapper.dtoToCourse(courseDto);
             course.setId(id);
@@ -42,7 +42,7 @@ public class CourseService {
         }
         return false;
     }
-    public boolean deleteCourse(String id){
+    public boolean deleteCourse(Long id){
         if (courseRepository.existsById(id)) {
             courseRepository.deleteById(id);
             return true;

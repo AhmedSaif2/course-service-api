@@ -30,7 +30,7 @@ class AuthorServiceTest {
     @BeforeEach
     void setUp() {
         testAuthor = new Author();
-        testAuthor.setId("1");
+        testAuthor.setId(1L);
         testAuthor.setName("Test Author");
         testAuthor.setMail("test@test.com");
 

@@ -33,7 +33,7 @@ class CourseServiceTest {
     private CourseRecommender courseRecommender;
     @InjectMocks
     private CourseService courseService;
-    private final String wrongId = "999";
+    private final Long wrongId = 999L;
     private Course testCourse;
     private CourseDto testCourseDto;
     @BeforeEach
@@ -43,7 +43,7 @@ class CourseServiceTest {
         testCourseDto.setDescription("This is a Test Course");
 
         testCourse = new Course();
-        testCourse.setId("1");
+        testCourse.setId(1L);
         testCourse.setName("Test Course");
         testCourse.setDescription("This is a Test Course");
     }
@@ -74,7 +74,7 @@ class CourseServiceTest {
         inputCourse.setDescription("This is a new Course");
 
         Course createdCourse = new Course();
-        createdCourse.setId("2");
+        createdCourse.setId(2L);
         createdCourse.setName(inputCourse.getName());
         createdCourse.setDescription(inputCourse.getDescription());
 
@@ -89,7 +89,7 @@ class CourseServiceTest {
     }
     @Test
     void updateCourse_existingId_updatesCourse(){
-        String id = "1";
+        Long id = 1L;
         CourseDto updatedCourseDto = new CourseDto();
         updatedCourseDto.setName("Updated Course");
         updatedCourseDto.setDescription("This is an Updated Course");

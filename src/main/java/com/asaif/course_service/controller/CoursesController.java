@@ -22,7 +22,7 @@ public class CoursesController {
         return courseService.getPagedCourses(page, size);
     }
     @GetMapping("{id}")
-    public ResponseEntity<CourseDto> getCourseById(@PathVariable String id){
+    public ResponseEntity<CourseDto> getCourseById(@PathVariable Long id){
         CourseDto courseDto = courseService.getCourseById(id);
         if (courseDto == null){
             return ResponseEntity.notFound().build();
@@ -38,12 +38,12 @@ public class CoursesController {
         return courseService.createCourse(courseDto);
     }
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateCourse(@PathVariable String id,@RequestBody CourseDto courseDto){
+    public ResponseEntity<Void> updateCourse(@PathVariable Long id,@RequestBody CourseDto courseDto){
         boolean updated = courseService.updateCourse(id,courseDto);
         return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable String id){
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long id){
         boolean deleted = courseService.deleteCourse(id);
         return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }

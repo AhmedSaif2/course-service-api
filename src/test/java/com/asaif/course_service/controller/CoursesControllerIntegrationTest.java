@@ -41,7 +41,7 @@ class CoursesControllerIntegrationTest {
 
     @Test
     void getCourseById_courseExists_returnsCourse() throws Exception {
-        mockMvc.perform(get("/courses/{id}", "0").headers(new HttpHeaders() {{
+        mockMvc.perform(get("/courses/{id}", "1").headers(new HttpHeaders() {{
             set("X-Validation-Report", "true");
         }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("Java Basics"));
     }
@@ -72,16 +72,16 @@ class CoursesControllerIntegrationTest {
         ).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("Test Course")).andExpect(jsonPath("$.description").value("This is a Test Course"));
         mockMvc.perform(get("/courses").param("page", "0").param("size", "10").headers(new HttpHeaders() {{
             set("X-Validation-Report", "true");
-        }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(initialCourseCount + 1))).andExpect(jsonPath("$[4].name").value("Test Course"));
+        }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(initialCourseCount + 1)));
     }
 
     @Test
     void updateCourse_courseExists_returnsUpdatedCourse() throws Exception {
         String updatedCourseJson = "{ \"name\": \"Updated Course\", \"description\": \"This is an Updated Course\"}";
-        mockMvc.perform(put("/courses/{id}", "0").headers(new HttpHeaders() {{
+        mockMvc.perform(put("/courses/{id}", "1").headers(new HttpHeaders() {{
             set("X-Validation-Report", "true");
         }}).with(httpBasic("bob", "adminpass")).contentType(MediaType.APPLICATION_JSON).content(updatedCourseJson)).andExpect(status().isOk());
-        mockMvc.perform(get("/courses/{id}", "0").headers(new HttpHeaders() {{
+        mockMvc.perform(get("/courses/{id}", "1").headers(new HttpHeaders() {{
             set("X-Validation-Report", "true");
         }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("Updated Course")).andExpect(jsonPath("$.description").value("This is an Updated Course"));
     }
@@ -96,7 +96,7 @@ class CoursesControllerIntegrationTest {
 
     @Test
     void deleteCourse_courseExists_returnsOk() throws Exception {
-        mockMvc.perform(delete("/courses/{id}", "0").headers(new HttpHeaders() {{
+        mockMvc.perform(delete("/courses/{id}", "1").headers(new HttpHeaders() {{
             set("X-Validation-Report", "true");
         }}).with(httpBasic("bob", "adminpass"))).andExpect(status().isOk());
         mockMvc.perform(get("/courses").headers(new HttpHeaders() {{

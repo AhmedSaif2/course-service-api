@@ -24,7 +24,7 @@ class RecommendAllTest {
     private Course testCourse = new Course();
     @BeforeEach
     void setUp() {
-        testCourse.setId("1");
+        testCourse.setId(1L);
         testCourse.setName("test Course");
         testCourse.setDescription("test Description");
     }

@@ -26,14 +26,14 @@ class CourseMapperTest {
     @Test
     void courseToDto_withNestedFields_returnsDto() {
         Course course = new Course();
-        course.setId("1");
+        course.setId(1L);
         course.setName("AI Basics");
         course.setDescription("AI Basics Course");
 
-        Rating rating = new Rating("1",5,course);
+        Rating rating = new Rating(1L,5,course);
 
-        Author author = new Author("1", "Jane Doe","test@mail.com",List.of(course));
-        Assessment assessment = new Assessment("1", "test assessment",course);
+        Author author = new Author(1L, "Jane Doe","test@mail.com",List.of(course));
+        Assessment assessment = new Assessment(1L, "test assessment",course);
 
         course.setRatings(List.of(rating));
         course.setAuthors(List.of(author));
