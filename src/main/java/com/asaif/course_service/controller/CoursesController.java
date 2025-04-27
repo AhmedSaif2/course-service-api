@@ -34,8 +34,9 @@ public class CoursesController {
         return courseService.getRecommendedCourses();
     }
     @PostMapping
-    public Course createCourse(@RequestBody CourseDto courseDto){
-        return courseService.createCourse(courseDto);
+    public ResponseEntity<Void> createCourse(@RequestBody CourseDto courseDto){
+        courseService.createCourse(courseDto);
+        return ResponseEntity.ok().build();
     }
     @PutMapping("{id}")
     public ResponseEntity<Void> updateCourse(@PathVariable Long id,@RequestBody CourseDto courseDto){

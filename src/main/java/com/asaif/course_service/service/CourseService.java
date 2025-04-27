@@ -2,6 +2,7 @@ package com.asaif.course_service.service;
 
 import com.asaif.course_service.dto.CourseDto;
 import com.asaif.course_service.mapper.CourseMapper;
+import com.asaif.course_service.model.Rating;
 import com.asaif.course_service.util.CourseRecommender;
 import com.asaif.course_service.model.Course;
 import com.asaif.course_service.repository.CourseRepository;
@@ -30,8 +31,16 @@ public class CourseService {
         }
         return courseMapper.courseToDto(course);
     }
-    public Course createCourse(CourseDto courseDto) {
-        return courseRepository.save(courseMapper.dtoToCourse(courseDto));
+    public boolean createCourse(CourseDto courseDto) {
+        Course course = courseMapper.dtoToCourse(courseDto);
+
+        for (Rating rating : course.getRatings()) {
+            rating.setCourse(course);
+        }
+        course.getAssessment().setCourse(course);
+
+        courseRepository.save(course);
+        return true;
     }
     public boolean updateCourse(Long id,CourseDto courseDto){
         if (courseRepository.existsById(id)) {
