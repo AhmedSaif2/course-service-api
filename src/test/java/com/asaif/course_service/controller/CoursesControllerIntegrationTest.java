@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Transactional
 class CoursesControllerIntegrationTest {
+    HttpHeaders headers = new HttpHeaders();
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -30,85 +31,65 @@ class CoursesControllerIntegrationTest {
     @BeforeEach
     void setUp() {
         initialCourseCount = courseRepository.findAll().size();
+        headers.set("X-Validation-Report", "true");
+        headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
     @Test
     void getAllCourses_coursesExist_returnsCourses() throws Exception {
-        mockMvc.perform(get("/courses").param("page", "0").param("size", "10").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(initialCourseCount))).andExpect(jsonPath("$[0].name").value("Java Basics")).andExpect(jsonPath("$[1].name").value("Spring Boot")).andExpect(jsonPath("$[2].name").value(".Net"));
+        mockMvc.perform(get("/courses")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .headers(headers))
+                .andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(initialCourseCount))).andExpect(jsonPath("$[0].name").value("Java Basics")).andExpect(jsonPath("$[1].name").value("Spring Boot")).andExpect(jsonPath("$[2].name").value(".Net"));
     }
 
     @Test
     void getCourseById_courseExists_returnsCourse() throws Exception {
-        mockMvc.perform(get("/courses/{id}", "1").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("Java Basics"));
+        mockMvc.perform(get("/courses/{id}", "1").headers(headers)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("Java Basics"));
     }
 
     @Test
     void getCourseById_courseDoesNotExist_returnsNotFound() throws Exception {
-        mockMvc.perform(get("/courses/{id}", "999").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }})).andExpect(status().isNotFound());
+        mockMvc.perform(get("/courses/{id}", "999").headers(headers)).andExpect(status().isNotFound());
     }
 
     @Test
     void getRecommendedCourses_coursesExist_returnsRecommendedCourses() throws Exception {
-        mockMvc.perform(get("/courses/recommended").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$[0].name").value("Java Basics"));
+        mockMvc.perform(get("/courses/recommended").headers(headers)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$[0].name").value("Java Basics"));
     }
 
     @Test
     void createCourse_validCourse_returnsCreatedCourse() throws Exception {
         String newCourseJson = "{ \"name\": \"Test Course\", \"description\": \"This is a Test Course\"}";
-        mockMvc.perform(post("/courses").headers(new HttpHeaders() {{
-                    set("X-Validation-Report", "true");
-                }}).with(httpBasic("bob", "adminpass")).contentType(MediaType.APPLICATION_JSON).content(newCourseJson).headers(new HttpHeaders() {{
-                    set("X-Validation-Report", "true");
-                }})
+        mockMvc.perform(post("/courses").headers(headers).with(httpBasic("bob", "adminpass")).contentType(MediaType.APPLICATION_JSON).content(newCourseJson).headers(headers)
 
-        ).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("Test Course")).andExpect(jsonPath("$.description").value("This is a Test Course"));
-        mockMvc.perform(get("/courses").param("page", "0").param("size", "10").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(initialCourseCount + 1)));
+        ).andExpect(status().isOk());
+        mockMvc.perform(get("/courses").param("page", "0").param("size", "100").headers(headers)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(initialCourseCount + 1)));
     }
 
     @Test
     void updateCourse_courseExists_returnsUpdatedCourse() throws Exception {
         String updatedCourseJson = "{ \"name\": \"Updated Course\", \"description\": \"This is an Updated Course\"}";
-        mockMvc.perform(put("/courses/{id}", "1").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }}).with(httpBasic("bob", "adminpass")).contentType(MediaType.APPLICATION_JSON).content(updatedCourseJson)).andExpect(status().isOk());
-        mockMvc.perform(get("/courses/{id}", "1").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }})).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("Updated Course")).andExpect(jsonPath("$.description").value("This is an Updated Course"));
+        mockMvc.perform(put("/courses/{id}", "1").headers(headers).with(httpBasic("bob", "adminpass")).contentType(MediaType.APPLICATION_JSON).content(updatedCourseJson)).andExpect(status().isOk());
+        mockMvc.perform(get("/courses/{id}", "1").headers(headers)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.name").value("Updated Course")).andExpect(jsonPath("$.description").value("This is an Updated Course"));
     }
 
     @Test
     void updateCourse_courseDoesNotExist_returnsNotFound() throws Exception {
         String updatedCourseJson = "{ \"name\": \"Updated Course\", \"description\": \"This is an Updated Course\"}";
-        mockMvc.perform(put("/courses/{id}", "999").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }}).with(httpBasic("bob", "adminpass")).contentType(MediaType.APPLICATION_JSON).content(updatedCourseJson)).andExpect(status().isNotFound());
+        mockMvc.perform(put("/courses/{id}", "999").headers(headers).with(httpBasic("bob", "adminpass")).contentType(MediaType.APPLICATION_JSON).content(updatedCourseJson)).andExpect(status().isNotFound());
     }
 
     @Test
     void deleteCourse_courseExists_returnsOk() throws Exception {
-        mockMvc.perform(delete("/courses/{id}", "1").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }}).with(httpBasic("bob", "adminpass"))).andExpect(status().isOk());
-        mockMvc.perform(get("/courses").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }}).param("page", "0").param("size", "10")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(initialCourseCount - 1)));
+        mockMvc.perform(delete("/courses/{id}", "1").headers(headers).with(httpBasic("bob", "adminpass"))).andExpect(status().isOk());
+        mockMvc.perform(get("/courses").headers(headers).param("page", "0").param("size", "10")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(initialCourseCount - 1)));
     }
 
     @Test
     void deleteCourse_courseDoesNotExist_returnsNotFound() throws Exception {
-        mockMvc.perform(delete("/courses/{id}", "999").headers(new HttpHeaders() {{
-            set("X-Validation-Report", "true");
-        }}).with(httpBasic("bob", "adminpass"))).andExpect(status().isNotFound());
+        mockMvc.perform(delete("/courses/{id}", "999").headers(headers).with(httpBasic("bob", "adminpass"))).andExpect(status().isNotFound());
     }
 
 }

@@ -33,12 +33,14 @@ public class CourseService {
     }
     public boolean createCourse(CourseDto courseDto) {
         Course course = courseMapper.dtoToCourse(courseDto);
-
-        for (Rating rating : course.getRatings()) {
-            rating.setCourse(course);
+        if (course.getRatings()!=null){
+            for (Rating rating : course.getRatings()) {
+                rating.setCourse(course);
+            }
         }
-        course.getAssessment().setCourse(course);
-
+        if (course.getAssessment()!=null){
+            course.getAssessment().setCourse(course);
+        }
         courseRepository.save(course);
         return true;
     }

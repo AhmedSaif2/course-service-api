@@ -48,4 +48,8 @@ public class CoursesController {
         boolean deleted = courseService.deleteCourse(id);
         return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
+    @GetMapping("/discover")
+    public List<CourseDto> discoverCourses(){
+        return courseService.getRecommendedCourses();
+    }
 }

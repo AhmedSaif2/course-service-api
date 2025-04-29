@@ -17,7 +17,7 @@ public class Course {
     private String name;
     private String description;
 
-   @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Rating> ratings;
     @OneToOne(mappedBy = "course", cascade = CascadeType.ALL)
     private Assessment assessment;

@@ -81,11 +81,9 @@ class CourseServiceTest {
         when(courseMapper.dtoToCourse(inputCourse)).thenReturn(createdCourse);
         when(courseRepository.save(createdCourse)).thenReturn(createdCourse);
 
-        Course result = courseService.createCourse(inputCourse);
+        boolean result = courseService.createCourse(inputCourse);
 
-        assertEquals(createdCourse.getId(),result.getId());
-        assertEquals(createdCourse.getName(),result.getName());
-        assertEquals(createdCourse.getDescription(),result.getDescription());
+        assertTrue(result);
     }
     @Test
     void updateCourse_existingId_updatesCourse(){
